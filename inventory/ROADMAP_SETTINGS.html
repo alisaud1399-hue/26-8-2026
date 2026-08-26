@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>خارطة طريق الإعدادات — نظام الجرد</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0f172a;
+  --blue: #2563eb;
+  --blue-light: #3b82f6;
+  --blue-bg: #eff6ff;
+  --green: #16a34a;
+  --green-bg: #f0fdf4;
+  --green-border: #bbf7d0;
+  --amber: #d97706;
+  --amber-bg: #fffbeb;
+  --amber-border: #fde68a;
+  --red: #dc2626;
+  --red-bg: #fef2f2;
+  --red-border: #fecaca;
+  --purple: #7c3aed;
+  --purple-bg: #f5f3ff;
+  --purple-border: #ddd6fe;
+  --cyan: #0891b2;
+  --cyan-bg: #ecfeff;
+  --cyan-border: #a5f3fc;
+  --slate: #475569;
+  --slate-light: #94a3b8;
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-lg: 0 10px 25px rgba(0,0,0,.08), 0 4px 10px rgba(0,0,0,.04);
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Tajawal',sans-serif; background:var(--bg); color:var(--navy); line-height:1.7; }
+
+/* ── Header ── */
+.hero {
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #2563eb 100%);
+  color:#fff; padding:60px 40px 50px; text-align:center; position:relative; overflow:hidden;
+}
+.hero::before { content:''; position:absolute; top:-50%; right:-10%; width:400px; height:400px; background:radial-gradient(circle,rgba(255,255,255,.06) 0%,transparent 70%); border-radius:50%; }
+.hero::after { content:''; position:absolute; bottom:-30%; left:-5%; width:300px; height:300px; background:radial-gradient(circle,rgba(59,130,246,.15) 0%,transparent 70%); border-radius:50%; }
+.hero h1 { font-size:2.4rem; font-weight:900; margin-bottom:10px; position:relative; z-index:1; }
+.hero p { font-size:1.1rem; opacity:.85; max-width:700px; margin:0 auto; position:relative; z-index:1; }
+.hero .badge { display:inline-block; background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.2); padding:4px 16px; border-radius:99px; font-size:.85rem; margin-top:14px; backdrop-filter:blur(4px); position:relative; z-index:1; }
+
+/* ── Container ── */
+.container { max-width:1100px; margin:0 auto; padding:30px 20px 60px; }
+
+/* ── Summary Table ── */
+.summary-section { margin-bottom:40px; }
+.summary-card { background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+.summary-header { padding:20px 28px; font-weight:800; font-size:1.15rem; border-bottom:2px solid var(--blue-bg); display:flex; align-items:center; gap:10px; }
+.summary-header i { color:var(--blue); }
+.summary-table { width:100%; border-collapse:collapse; font-size:.88rem; }
+.summary-table th { background:var(--blue-bg); color:var(--blue); font-weight:700; padding:12px 16px; text-align:right; }
+.summary-table td { padding:11px 16px; border-bottom:1px solid #f1f5f9; }
+.summary-table tr:last-child td { border-bottom:none; }
+.summary-table tr:hover { background:#f8fafc; }
+.cat-badge { display:inline-block; padding:2px 10px; border-radius:99px; font-size:.75rem; font-weight:700; white-space:nowrap; }
+.cat-access { background:var(--blue-bg); color:var(--blue); }
+.cat-lifecycle { background:var(--purple-bg); color:var(--purple); }
+.cat-data { background:var(--green-bg); color:var(--green); }
+.cat-alerts { background:var(--amber-bg); color:var(--amber); }
+.cat-limits { background:var(--red-bg); color:var(--red); }
+.cat-workflow { background:var(--cyan-bg); color:var(--cyan); }
+
+/* ── Category Section ── */
+.category { margin-bottom:36px; }
+.cat-title {
+  display:flex; align-items:center; gap:12px; padding:18px 24px; border-radius:var(--radius) var(--radius) 0 0;
+  color:#fff; font-size:1.2rem; font-weight:800;
+}
+.cat-title i { font-size:1.3rem; }
+.cat-title.access { background:linear-gradient(135deg,#0284c7,#2563eb); }
+.cat-title.lifecycle { background:linear-gradient(135deg,#6d28d9,#7c3aed); }
+.cat-title.data { background:linear-gradient(135deg,#15803d,#16a34a); }
+.cat-title.alerts { background:linear-gradient(135deg,#b45309,#d97706); }
+.cat-title.limits { background:linear-gradient(135deg,#b91c1c,#dc2626); }
+.cat-title.workflow { background:linear-gradient(135deg,#0e7490,#0891b2); }
+
+/* ── Setting Card ── */
+.setting-card {
+  background:var(--card); border-radius:0 0 var(--radius) var(--radius);
+  box-shadow:var(--shadow); margin-bottom:2px; padding:24px 28px;
+  border-right:4px solid transparent; transition:.2s;
+}
+.setting-card:hover { box-shadow:var(--shadow-lg); transform:translateX(-2px); }
+.setting-card.border-access { border-right-color:var(--blue); }
+.setting-card.border-lifecycle { border-right-color:var(--purple); }
+.setting-card.border-data { border-right-color:var(--green); }
+.setting-card.border-alerts { border-right-color:var(--amber); }
+.setting-card.border-limits { border-right-color:var(--red); }
+.setting-card.border-workflow { border-right-color:var(--cyan); }
+
+.setting-top { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; flex-wrap:wrap; margin-bottom:12px; }
+.setting-name { font-size:1.05rem; font-weight:800; color:var(--navy); }
+.setting-meta { display:flex; gap:8px; flex-wrap:wrap; }
+.meta-tag { display:inline-flex; align-items:center; gap:4px; padding:3px 10px; border-radius:99px; font-size:.72rem; font-weight:700; }
+.meta-key { background:#f1f5f9; color:var(--slate); }
+.meta-type { background:var(--blue-bg); color:var(--blue); }
+.meta-scope { background:#fef3c7; color:#92400e; }
+.meta-default { background:var(--green-bg); color:var(--green); }
+
+.setting-desc { color:var(--slate); font-size:.9rem; margin-bottom:14px; }
+
+/* ── Behavior Table ── */
+.behavior-table { width:100%; border-collapse:collapse; font-size:.85rem; margin-top:10px; }
+.behavior-table th { background:#f8fafc; font-weight:700; padding:10px 14px; text-align:right; border-bottom:2px solid #e2e8f0; white-space:nowrap; }
+.behavior-table td { padding:10px 14px; border-bottom:1px solid #f1f5f9; vertical-align:top; }
+.behavior-table tr:last-child td { border-bottom:none; }
+.behavior-table tr:hover { background:#fafbfc; }
+
+.icon-ok { color:var(--green); }
+.icon-warn { color:var(--amber); }
+.icon-block { color:var(--red); }
+.icon-info { color:var(--blue); }
+
+/* ── Notes ── */
+.note-box {
+  background:var(--amber-bg); border:1px solid var(--amber-border); border-radius:var(--radius-sm);
+  padding:14px 18px; margin-top:12px; font-size:.85rem; color:#92400e;
+}
+.note-box i { margin-left:6px; }
+.note-box.info { background:var(--cyan-bg); border-color:var(--cyan-border); color:#0e7490; }
+.note-box.danger { background:var(--red-bg); border-color:var(--red-border); color:#991b1b; }
+.note-box.success { background:var(--green-bg); border-color:var(--green-border); color:#166534; }
+
+/* ── Flow Section ── */
+.flow-section { margin-top:40px; }
+.flow-card { background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+.flow-header { padding:20px 28px; font-weight:800; font-size:1.15rem; border-bottom:2px solid var(--purple-bg); display:flex; align-items:center; gap:10px; }
+.flow-header i { color:var(--purple); }
+.flow-body { padding:24px 28px; }
+
+.flow-step {
+  display:flex; gap:16px; margin-bottom:0; position:relative;
+}
+.flow-step::before {
+  content:''; position:absolute; right:18px; top:36px; bottom:-8px; width:2px; background:#e2e8f0;
+}
+.flow-step:last-child::before { display:none; }
+
+.flow-num {
+  width:38px; height:38px; min-width:38px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-weight:900; font-size:.85rem; color:#fff; position:relative; z-index:1;
+}
+.flow-num.check { background:var(--blue); }
+.flow-num.pass { background:var(--green); }
+.flow-num.block { background:var(--red); }
+.flow-num.branch { background:var(--purple); }
+
+.flow-content { flex:1; padding-bottom:20px; }
+.flow-title { font-weight:700; font-size:.95rem; margin-bottom:4px; }
+.flow-detail { font-size:.85rem; color:var(--slate); }
+.flow-detail .outcomes { margin-top:6px; display:flex; flex-direction:column; gap:4px; }
+.flow-detail .outcome {
+  display:inline-flex; align-items:center; gap:6px; padding:4px 12px;
+  border-radius:99px; font-size:.8rem; font-weight:600; width:fit-content;
+}
+.outcome.ok { background:var(--green-bg); color:var(--green); }
+.outcome.warn { background:var(--amber-bg); color:var(--amber); }
+.outcome.block { background:var(--red-bg); color:var(--red); }
+
+/* ── Test Matrix ── */
+.test-section { margin-top:40px; }
+.test-card { background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+.test-header { padding:20px 28px; font-weight:800; font-size:1.15rem; border-bottom:2px solid var(--green-bg); display:flex; align-items:center; gap:10px; }
+.test-header i { color:var(--green); }
+.test-table { width:100%; border-collapse:collapse; font-size:.85rem; }
+.test-table th { background:var(--green-bg); color:var(--green); font-weight:700; padding:12px 16px; text-align:right; }
+.test-table td { padding:11px 16px; border-bottom:1px solid #f1f5f9; vertical-align:top; }
+.test-table tr:last-child td { border-bottom:none; }
+.test-table tr:hover { background:#fafbfc; }
+.test-status { display:inline-flex; align-items:center; gap:4px; padding:2px 10px; border-radius:99px; font-size:.75rem; font-weight:700; }
+.status-done { background:var(--green-bg); color:var(--green); }
+.status-pending { background:var(--amber-bg); color:var(--amber); }
+.status-todo { background:#f1f5f9; color:var(--slate); }
+
+/* ── Footer ── */
+.footer { text-align:center; padding:30px; color:var(--slate-light); font-size:.85rem; border-top:1px solid #e2e8f0; margin-top:40px; }
+
+/* ── Print ── */
+@media print {
+  body { background:#fff; }
+  .hero { background:#0f172a !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .setting-card:hover { transform:none; box-shadow:var(--shadow); }
+  .container { padding:20px; }
+}
+
+/* ── Responsive ── */
+@media (max-width:768px) {
+  .hero h1 { font-size:1.6rem; }
+  .hero { padding:40px 20px 30px; }
+  .container { padding:16px 12px 40px; }
+  .setting-card { padding:18px 16px; }
+  .setting-top { flex-direction:column; gap:8px; }
+  .behavior-table, .test-table { font-size:.78rem; }
+  .behavior-table th, .behavior-table td, .test-table th, .test-table td { padding:8px 10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ Hero ═══════════ -->
+<div class="hero">
+  <h1><i class="fa-solid fa-map"></i> خارطة طريق إعدادات الجرد</h1>
+  <p>ربط كل إعداد بتأثيره الصارم على واجهة الجرد والـ API — دليل شامل للتطوير والاختبار</p>
+  <div class="badge">PMSH-AMS &bull; نظام إدارة أصول المستشفى &bull; 20 إعداد</div>
+</div>
+
+<div class="container">
+
+<!-- ═══════════ ملخص سريع ═══════════ -->
+<div class="summary-section">
+  <div class="summary-card">
+    <div class="summary-header"><i class="fa-solid fa-list-check"></i> ملخص الإعدادات (20 إعداد — 6 فئات)</div>
+    <table class="summary-table">
+      <thead><tr><th>#</th><th>المفتاح</th><th>الاسم</th><th>التصنيف</th><th>النطاق</th><th>الافتراضي</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><code>inv_manual_picker</code></td><td>الاختيار اليدوي للموقع</td><td><span class="cat-badge cat-access">الوصول</span></td><td>واجهة</td><td>0</td></tr>
+        <tr><td>2</td><td><code>inv_parallel_mode</code></td><td>نمط التوازي</td><td><span class="cat-badge cat-access">الوصول</span></td><td>API</td><td>off</td></tr>
+        <tr><td>3</td><td><code>inv_parallel_rooms</code></td><td>الغرف المسموح بالتوازي</td><td><span class="cat-badge cat-access">الوصول</span></td><td>API</td><td>[]</td></tr>
+        <tr><td>4</td><td><code>inv_qr_required_for_lock</code></td><td>الباركود إلزامي</td><td><span class="cat-badge cat-access">الوصول</span></td><td>واجهة</td><td>1</td></tr>
+        <tr><td>5</td><td><code>inv_allow_takeover</code></td><td>الاستلام</td><td><span class="cat-badge cat-lifecycle">الدورة</span></td><td>API</td><td>1</td></tr>
+        <tr><td>6</td><td><code>inv_require_oath_complete</code></td><td>الإقرار قبل الإقفال</td><td><span class="cat-badge cat-lifecycle">الدورة</span></td><td>API</td><td>1</td></tr>
+        <tr><td>7</td><td><code>inv_lock_timeout_min</code></td><td>مهلة عدم النشاط</td><td><span class="cat-badge cat-lifecycle">الدورة</span></td><td>API</td><td>30</td></tr>
+        <tr><td>8</td><td><code>inv_max_suspend_count</code></td><td>الحد الأقصى للتعليق</td><td><span class="cat-badge cat-lifecycle">الدورة</span></td><td>API + واجهة</td><td>3</td></tr>
+        <tr><td>9</td><td><code>inv_allow_quick_register</code></td><td>تسجيل أصل جديد</td><td><span class="cat-badge cat-data">البيانات</span></td><td>واجهة</td><td>1</td></tr>
+        <tr><td>10</td><td><code>inv_require_tag_for_audit</code></td><td>tag/serial إلزامي</td><td><span class="cat-badge cat-data">البيانات</span></td><td>واجهة</td><td>0</td></tr>
+        <tr><td>11</td><td><code>inv_auto_save_interval_sec</code></td><td>الحفظ التلقائي</td><td><span class="cat-badge cat-data">البيانات</span></td><td>واجهة</td><td>60</td></tr>
+        <tr><td>12</td><td><code>inv_warn_new_device</code></td><td>تحذير جهاز جديد</td><td><span class="cat-badge cat-alerts">التنبيهات</span></td><td>واجهة</td><td>1</td></tr>
+        <tr><td>13</td><td><code>inv_warn_missing_expected</code></td><td>تحذير مفقود متوقع</td><td><span class="cat-badge cat-alerts">التنبيهات</span></td><td>واجهة</td><td>1</td></tr>
+        <tr><td>14</td><td><code>inv_audio_cue</code></td><td>صوت عند المسح</td><td><span class="cat-badge cat-alerts">التنبيهات</span></td><td>واجهة</td><td>1</td></tr>
+        <tr><td>15</td><td><code>inv_vibration</code></td><td>اهتزاز عند المسح</td><td><span class="cat-badge cat-alerts">التنبيهات</span></td><td>واجهة</td><td>1</td></tr>
+        <tr><td>16</td><td><code>inv_max_assets_per_session</code></td><td>الحد الأقصى للأصول</td><td><span class="cat-badge cat-limits">الحدود</span></td><td>واجهة</td><td>200</td></tr>
+        <tr><td>17</td><td><code>inv_max_locks_per_user</code></td><td>الحد الأقصى للأقفال</td><td><span class="cat-badge cat-limits">الحدود</span></td><td>API</td><td>1</td></tr>
+        <tr><td>18</td><td><code>inv_block_audit_undocumented_room</code></td><td>منع غرفة غير موثقة</td><td><span class="cat-badge cat-workflow">العمل</span></td><td>API</td><td>1</td></tr>
+        <tr><td>19</td><td><code>inv_dept_required_before_lock</code></td><td>قسم إلزامي للغرفة</td><td><span class="cat-badge cat-workflow">العمل</span></td><td>API</td><td>1</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════ الفئة 1: الوصول والتوازي ═══════════ -->
+<div class="category">
+  <div class="cat-title access"><i class="fa-solid fa-users-gear"></i> الفئة 1: الوصول والتوازي</div>
+
+  <div class="setting-card border-access">
+    <div class="setting-top">
+      <div class="setting-name">1. السماح بالاختيار اليدوي للموقع</div>
+      <div class="setting-meta">
+        <span class="meta-tag meta-key">inv_manual_picker</span>
+        <span class="meta-tag meta-type">مفتاح تشغيل</span>
+        <span class="meta-tag meta-scope">واجهة</span>
+        <span class="meta-tag meta-default">الافتراضي: 0</span>
+      </div>
+    </div>
+    <div class="setting-desc">يتحكم بظهور المنتقي (مبنى → طابق → غرفة) + حقل الكود اليدوي + فاصل "أو" في شاشة تسجيل الدخول للغرفة</div>
+    <table class="behavior-table">
+      <thead><tr><th>الحالة</th><th>ما يظهر في شاشة تسجيل الغرفة</th></tr></thead>
+      <tbody>
+        <tr><td><span class="icon-ok">✓</span> مفعّل (1)</td><td>زر مسح QR + فاصل "أو" + حقل الكود اليدوي + المنتقي الكامل (مبنى→طابق→غرفة موثقة)</td></tr>
+        <tr><td><span class="icon-block">✗</span> معطّل (0)</td><td>زر مسح QR <strong>فقط</strong> — لا فاصل، لا حقل، لا منتقي</td></tr>
+      </tbody>
+    </table>
+    <div class="note-box info"><i class="fa-solid fa-circle-info"></i> مستقل عن <code>inv_qr_required_for_lock</code> — حتى الأدمن يتأثر بدون استثناء</div>
+  </div>
+
+  <div class="setting-card border-access">
+    <div class="setting-top">
+      <div class="setting-name">2. نمط التوازي بين الموظفين</div>
+      <div class="setting-meta">
+        <span class="meta-tag meta-key">inv_parallel_mode</span>
+        <span class="meta-tag meta-type">اختيار</span>
+        <span class="meta-tag meta-scope">API + واجهة</span>
+        <span class="meta-tag meta-default">الافتراضي: off</span>
+      </div>
+    </div>
+    <div class="setting-desc">يحدد إذا يمكن لعدة موظفين العمل على نفس الغرفة في نفس الوقت</div>
+    <table class="behavior-table">
+      <thead><tr><th>النمط</th><th>السلوك عند محاولة فتح غرفة مفتوحة لموظف آخر</th></tr></thead>
+      <tbody>
+        <tr><td><strong>off</strong> — إيقاف</td><td><span class="icon-warn">⚠️</span> نافذة "الغرفة قيد الجرد من X" → <strong>[استلام / تراجع]</strong></td></tr>
+        <tr><td><strong>all</strong> — الكل</td><td><span class="icon-ok">✅</span> دخول مباشر مشترك + شريط "غرفة جرد مشتركة"</td></tr>
+        <tr><td><strong>selected</strong> + الغرفة مدرجة</td><td><span class="icon-ok">✅</span> دخول مباشر مشترك + شريط الداخلين</td></tr>
+        <tr><td><strong>selected</strong> + الغرفة غير مدرجة</td><td><span class="icon-warn">⚠️</span> نافذة "الغرفة قيد الجرد من X" → <strong>[استلام / تراجع]</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="setting-card border-access">
+    <div class="setting-top">
+      <div class="setting-name">3. الغرف المسموح بالتوازي فيها</div>
+      <div class="setting-meta">
+        <span class="meta-tag meta-key">inv_parallel_rooms</span>
+        <span class="meta-tag meta-type">JSON</span>
+        <span class="meta-tag meta-scope">API</span>
+        <span class="meta-tag meta-default">الافتراضي: []</span>
+      </div>
+    </div>
+    <div class="setting-desc">قائمة IDs الغرف المسموح بالتوازي فيها (يتطلب <code>inv_parallel_mode=selected</code>)</div>
+    <div class="note-box info"><i class="fa-solid fa-circle-info"></i> الإدخال: نص JSON مثل <code>[189,276]</code> — معرفة room_id من كود QR أو رابط فتح الغرفة</div>
+  </div>
+
+  <div class="setting-card border-access">
+    <div class="setting-top">
+      <div class="setting-name">4. الباركود إلزامي لقفل الغرفة</div>
+      <div class="setting-meta">
+        <span class="meta-tag meta-key">inv_qr_required_for_lock</span>
+        <span class="meta-tag meta-type">مفتاح تشغيل</span>
+        <span class="meta-tag meta-scope">واجهة</span>
+        <span class="meta-tag meta-default">الافتراضي: 1</span>
+      </div>
+    </div>
+    <div class="setting-desc">يتحكم بضرورة مسح QR الغرفة مقابل السماح بالاختيار اليدوي</div>
+    <table class="behavior-table">
+      <thead><tr><th>manual</th><th>qr_required</th><th>النتيجة</th></tr></thead>
+      <tbody>
+        <tr><td>مفعّل</td><td>معطّل</td><td><span class="icon-ok">✅</span> كل الطرق متاحة (مسح + يدوي + منتقي)</td></tr>
+        <tr><td>مفعّل</td><td>مفعّل</td><td><span class="icon-block">✗</span> باركيود فقط — المنتقي والكود اليدوي لا يظهران</td></tr>
+        <tr><td>معطّل</td><td>أي</td><td><span class="icon-block">✗</span> باركيود فقط (لا منتقي لأنه معطّل)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════ الفئة 2: دورة الحياة ═══════════ -->
+<div class="category">
+  <div class="cat-title lifecycle"><i class="fa-solid fa-arrows-rotate"></i> الفئة 2: دورة حياة الجرد</div>
+
+  <div class="setting-card border-lifecycle">
+    <div class="setting-top">
+      <div class="setting-name">5. السماح باستلام غرفة قيد الجرد</div>
+      <div class="setting-meta">
+        <span class="meta-tag meta-key">inv_allow_takeover</span>
+        <span class="meta-tag meta-type">مفتاح تشغيل</span>
+        <span class="meta-tag meta-scope">API</span>
+        <span class="meta-tag meta-default">الافتراضي: 1</span>
+      </div>
+    </div>
+    <div class="setting-desc">هل يمكن للموظف الثاني استلام غرفة مشغولة — القفل الأول يتحول superseded (لا عودة)</div>
+    <table class="behavior-table">
+      <thead><tr><th>الحالة</th><th>السلوك</th></tr></thead>
+      <tbody>
+        <tr><td><span class="icon-ok">✓</span> مفعّل</td><td>يُسمح بالاستلام — يُخرج الموظف الأول نهائياً من الغرفة</td></tr>
+        <tr><td><span class="icon-block">✗</span> معطّل</td><td>رفض صارم: "الاستلام معطّل من إعدادات الجرد"</td></tr>
+      </tbody>
+    </table>
+    <div class="note-box danger"><i class="fa-solid fa-triangle-exclamation"></i> الاستلام = الموظف الأول يُ排出 نهائياً. لا يمكنه العودة لغرفته.</div>
+  </div>
+
+  <div class="setting-card border-lifecycle">
+    <div class="setting-top">
+      <div class="setting-name">6. الإقرار الإلزامي قبل الإقفال النهائي</div>
+      <div class="setting-meta">
+        <span class="meta-tag meta-key">inv_require_oath_complete</span>
+        <span class="meta-tag meta-type">مفتاح تشغيل</span>
+        <span class="meta-tag meta-scope">API</span>
+        <span class="meta-tag meta-default">الافتراضي: 1</span>
+      </div>
+    </div>
+    <div class="setting-desc">يجب تأكيد "أُقفلت بعد إتمام الجرد فعلياً" قبل الإقفال النهائي — حماية إضافية</div>
+    <table class="behavior-table">
+      <thead><tr><th>الحالة</th><th>السلوك</th></tr></thead>
+      <tbody>
+        <tr><td><span class="icon-ok">✓</span> مفعّل</td><td>يُرفض الإقفال النهائي بدون oath=1 (يظهر confirm dialog)</td></tr>
+        <tr><td><span class="icon-block">✗</span> معطّل</td><td>يُقبل الإقفال بدون تأكيد إضافي</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="setting-card border-lifecycle">
+    <div class="setting-top">
+      <div class="setting-name">7. مهلة عدم النشاط (بالدقائق)</div>
+      <div class="setting-meta">
+        <span class="meta-tag meta-key">inv_lock_timeout_min</span>
+        <span class="meta-tag meta-type">رقم صحيح (5–480)</span>
+        <span class="meta-tag meta-scope">API</span>
+        <span class="meta-tag meta-default">الافتراضي: 30</span>
+      </div>
+    </div>
+    <div class="setting-desc">مهلة تلقائية — عند عدم النشاط تُعلّق الغرفة</div>
+    <table class="behavior-table">
+      <thead><tr><th>القيمة</th><th>السلوك</th></tr></thead>
+      <tbody>
+        <tr><td><strong>0</strong></td><td>بدون مهلة — القفل يبقى نشطاً حتى يُغلق يدوياً</td></tr>
+        <tr><td><strong>5–480</strong></td><td>expires_at = NOW() + X دقيقة — عند انتهاء المهلة يتحول القفل</td></tr>
+      </tbody>
+    </table>
+    <div class="note-box danger"><i class="fa-solid fa-triangle-exclamation"></i> <strong>ملاحظة تنفيذية:</strong> لا يوجد كود حالي يحوّل القفل expired تلقائياً — يجب إضافة فحص expires_at عند كل طلب</div>
+  </div>
+
+  <div class="setting-card border-lifecycle">
+    <div class="setting-top">
+      <div class="setting-name">8. الحد الأقصى لعمليات التعليق</div>
+      <div class="setting-meta">
+        <span class="meta-tag meta-key">inv_max_suspend_count</span>
+        <span class="meta-tag meta-type">رقم صحيح (0–99)</span>
+        <span class="meta-tag meta-scope">API + واجهة</span>
+        <span class="meta-tag meta-default">الافتراضي: 3</span>
+      </div>
+    </div>
+    <div class="setting-desc">عدد مرات التعليق المسموحة لكل موظف في نفس الغرفة — حماية مزدوجة (واجهة + سيرفر)</div>
+    <table class="behavior-table">
+      <thead><tr><th>القيمة</th><th>السلوك</th></tr></thead>
+      <tbody>
+        <tr><td><strong>0</strong></td><td>غير محدود — عدد لا نهائي من التعليقات</td></tr>
+        <tr><td><strong>N > 0</strong></td><td>بعد N مرات تعليق → رفض مع رسالة "يلزم مدير الأصول"</td></tr>
+      </tbody>
+    </table>
+    <div class="note-box success"><i class="fa-solid fa-shield-halved"></i> حماية مزدوجة: الواجهة تفحص <code>RL.suspendCount</code> + الـ API يفحص <code>COUNT(*) FROM room_lock_events</code></div>
+  </div>
+</div>
+
+<!-- ═══════════ الفئة 3: البيانات ═══════════ -->
+<div class="category">
+  <div class="cat-title data"><i class="fa-solid fa-database"></i> الفئة 3: البيانات والجودة</div>
+
+  <div class="setting-card border-data">
+    <div class="setting-top">
+      <div class="setting-name">9. السماح بتسجيل أصل جديد داخل الجرد</div>
+      <div class="setting-meta">
+        <span class="meta-tag meta-key">inv_allow_quick_register</span>
+        <span class="meta-tag meta-type">مفتاح تشغيل</span>
+        <span class="meta-tag meta-scope">واجهة</span>
+        <span class="meta-tag meta-default">الافتراضي: 1</span>
+      </div>
+    </div>
+    <div class="setting-desc">هل يمكن للموظف تسجيل جهاز جديد (غير مسجَّل أصلاً) أثناء الجرد — يتكامل مع تحذير جديد</div>
+    <table class="behavior-table">
+      <thead><tr><th>allow_quick</th><th>warn_new</th><th>النتيجة عند مسح جهاز غير معروف</th></tr></thead>
+      <tbody>
+        <tr><td>مفعّل</td><td>مفعّل</td><td><span class="icon-info">ℹ️</span> تحذير: "جهاز جديد — يمكن تسجيله"</td></tr>
+        <tr><td>مفعّل</td><td>معطّل</td><td>تسجيل تلقائي بدون تنبيه</td></tr>
+        <tr><td>معطّل</td><td>مفعّل</td><td><span class="icon-warn">⚠️</span> تحذير: "جهاز غير مسجَّل — أبلغ المدير"</td></tr>
+        <tr><td>معطّل</td><td>معطّل</td><td>لا شيء</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="setting-card border-data">
+    <div class="setting-top">
+      <div class="setting-name">10. tag/serial إلزامي للجهاز</div>
+      <div class="setting-meta">
+        <span class="meta-tag meta-key">inv_require_tag_for_audit</span>
+        <span class="meta-tag meta-type">مفتاح تشغيل</span>
+        <span class="meta-tag meta-scope">واجهة</span>
+        <span class="meta-tag meta-default">الافتراضي: 0</span>
+      </div>
+    </div>
+    <div class="setting-desc">يمنع الحفظ إذا لم يكن هناك رقم تسلسلي أو وسم — يُطبَّق قبل الإرسال للسيرفر</div>
+    <table class="behavior-table">
+      <thead><tr><th>الحالة</th><th>السلوك</th></tr></thead>
+      <tbody>
+        <tr><td><span class="icon-ok">✓</span> مفعّل</td><td><span class="icon-block">✗</span> رفض الحفظ إذا فارغ两者 (tag + serial)</td></tr>
+        <tr><td><span class="icon-block">✗</span> معطّل</td><td>يُقبل الحفظ حتى بدون أي منهما</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="setting-card border-data">
+    <div class="setting-top">
+      <div class="setting-name">11. فترة الحفظ التلقائي (ثواني)</div>
+      <div class="setting-meta">
+        <span class="meta-tag meta-key">inv_auto_save_interval_sec</span>
+        <span class="meta-tag meta-type">رقم صحيح (0–600)</span>
+        <span class="meta-tag meta-scope">واجهة</span>
+        <span class="meta-tag meta-default">الافتراضي: 60</span>
+      </div>
+    </div>
+    <div class="setting-desc">حماية محلية — يحفظ snapshot في localStorage كل N ثانية (لا يُرسل للسيرفر)</div>
+    <table class="behavior-table">
+      <thead><tr><th>القيمة</th><th>السلوك</th></tr></thead>
+      <tbody>
+        <tr><td><strong>0</strong></td><td>حفظ يدوي فقط — لا حفظ تلقائي</td></tr>
+        <tr><td><strong>N > 0</strong></td><td>snapshot محلي كل N ثانية — حماية ضد انقطاع الشبكة</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════ الفئة 4: التنبيهات ═══════════ -->
+<div class="category">
+  <div class="cat-title alerts"><i class="fa-solid fa-bell"></i> الفئة 4: التنبيهات</div>
+
+  <div class="setting-card border-alerts">
+    <div class="setting-top">
+      <div class="setting-name">12. تحذير: جهاز جديد في الموقع</div>
+      <div class="setting-meta">
+        <span class="meta-tag meta-key">inv_warn_new_device</span>
+        <span class="meta-tag meta-type">مفتاح تشغيل</span>
+        <span class="meta-tag meta-scope">واجهة</span>
+        <span class="meta-tag meta-default">الافتراضي: 1</span>
+      </div>
+    </div>
+    <div class="setting-desc">يتكامل مع <code>inv_allow_quick_register</code> — يتحكم بنوع التحذير عند مسح جهاز غير مسجَّل</div>
+  </div>
+
+  <div class="setting-card border-alerts">
+    <div class="setting-top">
+      <div class="setting-name">13. تحذير: جهاز متوقع غير موجود</div>
+      <div class="setting-meta">
+        <span class="meta-tag meta-key">inv_warn_missing_expected</span>
+        <span class="meta-tag meta-type">مفتاح تشغيل</span>
+        <span class="meta-tag meta-scope">واجهة</span>
+        <span class="meta-tag meta-default">الافتراضي: 1</span>
+      </div>
+    </div>
+    <div class="setting-desc">تأكيد قبل مغادرة الغرفة إذا بقيت أصول متوقع但她 لم تُجرد — يمنع النسيان</div>
+    <table class="behavior-table">
+      <thead><tr><th>الحالة</th><th>السلوك</th></tr></thead>
+      <tbody>
+        <tr><td><span class="icon-ok">✓</span> مفعّل</td><td>confirm dialog: "هناك X أصل لم تُجرد — هل أنت متأكد؟"</td></tr>
+        <tr><td><span class="icon-block">✗</span> معطّل</td><td>لا تأكيد — يُسجل المفقود تلقائياً</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="setting-card border-alerts">
+    <div class="setting-top">
+      <div class="setting-name">14–15. صوت + اهتزاز عند المسح</div>
+      <div class="setting-meta">
+        <span class="meta-tag meta-key">inv_audio_cue / inv_vibration</span>
+        <span class="meta-tag meta-type">مفتاح تشغيل</span>
+        <span class="meta-tag meta-scope">واجهة</span>
+        <span class="meta-tag meta-default">الافتراضي: 1</span>
+      </div>
+    </div>
+    <div class="setting-desc">uisine صوت قصير + اهتزاز عند كل قراءة QR (الاهتزاز يعمل على الهواتف فقط)</div>
+  </div>
+</div>
+
+<!-- ═══════════ الفئة 5: الحدود ═══════════ -->
+<div class="category">
+  <div class="cat-title limits"><i class="fa-solid fa-gauge-high"></i> الفئة 5: الحدود</div>
+
+  <div class="setting-card border-limits">
+    <div class="setting-top">
+      <div class="setting-name">16. الحد الأقصى للأصول في الجلسة</div>
+      <div class="setting-meta">
+        <span class="meta-tag meta-key">inv_max_assets_per_session</span>
+        <span class="meta-tag meta-type">رقم صحيح (0–9999)</span>
+        <span class="meta-tag meta-scope">واجهة</span>
+        <span class="meta-tag meta-default">الافتراضي: 200</span>
+      </div>
+    </div>
+    <div class="setting-desc">عدد الأصول المسموح بجردها في جلسة واحدة — تحذير فقط لا يمنع الحفظ</div>
+    <table class="behavior-table">
+      <thead><tr><th>القيمة</th><th>السلوك</th></tr></thead>
+      <tbody>
+        <tr><td><strong>0</strong></td><td>غير محدود — لا تحذير</td></tr>
+        <tr><td><strong>N > 0</strong></td><td>toast تحذيري "تجاوزت الحد الأقصى" — لا يمنع الحفظ</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="setting-card border-limits">
+    <div class="setting-top">
+      <div class="setting-name">17. الحد الأقصى للأقفال لكل موظف</div>
+      <div class="setting-meta">
+        <span class="meta-tag meta-key">inv_max_locks_per_user</span>
+        <span class="meta-tag meta-type">رقم صحيح (1–20)</span>
+        <span class="meta-tag meta-scope">API</span>
+        <span class="meta-tag meta-default">الافتراضي: 1</span>
+      </div>
+    </div>
+    <div class="setting-desc">عدد الغرف المفتوحة ب sama الوقت لكل موظف — فحص في checkin فقط</div>
+    <table class="behavior-table">
+      <thead><tr><th>القيمة</th><th>السلوك</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1</strong></td><td>غرفة واحدة فقط — فتح غرفة ثانية يُرفض</td></tr>
+        <tr><td><strong>N > 1</strong></td><td>最多 N غرف — تجاوزها يُرفض مع رسالة "أنهِ أو علّق"</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════ الفئة 6: قواعد العمل ═══════════ -->
+<div class="category">
+  <div class="cat-title workflow"><i class="fa-solid fa-shield-halved"></i> الفئة 6: قواعد العمل</div>
+
+  <div class="setting-card border-workflow">
+    <div class="setting-top">
+      <div class="setting-name">18. منع جرد غرفة غير موثقة</div>
+      <div class="setting-meta">
+        <span class="meta-tag meta-key">inv_block_audit_undocumented_room</span>
+        <span class="meta-tag meta-type">مفتاح تشغيل</span>
+        <span class="meta-tag meta-scope">API</span>
+        <span class="meta-tag meta-default">الافتراضي: 1</span>
+      </div>
+    </div>
+    <div class="setting-desc">يرفض قفل غرفة بدون كود موقع (location_code) — حماية من تسجيل خاطئ</div>
+    <table class="behavior-table">
+      <thead><tr><th>الحالة</th><th>السلوك</th></tr></thead>
+      <tbody>
+        <tr><td><span class="icon-ok">✓</span> مفعّل + لا كود</td><td><span class="icon-block">✗</span> رفض: "الغرفة بدون تكويد رقمي"</td></tr>
+        <tr><td><span class="icon-block">✗</span> معطّل</td><td>يُسمح بالدخول حتى بدون كود</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="setting-card border-workflow">
+    <div class="setting-top">
+      <div class="setting-name">19. قسم إلزامي للغرفة قبل القفل</div>
+      <div class="setting-meta">
+        <span class="meta-tag meta-key">inv_dept_required_before_lock</span>
+        <span class="meta-tag meta-type">مفتاح تشغيل</span>
+        <span class="meta-tag meta-scope">API</span>
+        <span class="meta-tag meta-default">الافتراضي: 1</span>
+      </div>
+    </div>
+    <div class="setting-desc">يرفض قفل غرفة بدون قسم مرتبط (dept_id) أو حالة تحقق (parse_status=verified)</div>
+    <table class="behavior-table">
+      <thead><tr><th>الحالة</th><th>السلوك</th></tr></thead>
+      <tbody>
+        <tr><td><span class="icon-ok">✓</span> مفعّل + غير موثقة</td><td><span class="icon-block">✗</span> رفض: "الغرفة غير موثقة (بدون قسم مرتبط)"</td></tr>
+        <tr><td><span class="icon-block">✗</span> معطّل</td><td>يُسمح بالدخول</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════ تسلسل فتح الغرفة ═══════════ -->
+<div class="flow-section">
+  <div class="flow-card">
+    <div class="flow-header"><i class="fa-solid fa-diagram-project"></i> تسلسل فحوصات فتح الغرفة (API checkin)</div>
+    <div class="flow-body">
+      <div class="flow-step">
+        <div class="flow-num check">1</div>
+        <div class="flow-content">
+          <div class="flow-title">فحص الجلسة</div>
+          <div class="flow-detail">هل الجلسة نشطة؟ هل أنت عضو فيها؟</div>
+          <div class="outcomes"><span class="outcome block">✗ جلسة غير نشطة → رفض</span><span class="outcome block">✗ غير عضو → رفض (403)</span></div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num check">2</div>
+        <div class="flow-content">
+          <div class="flow-title">فحص رادار المراقبة</div>
+          <div class="flow-detail">هل أنت معلّق؟ هل الغرفة محظورة عليك؟</div>
+          <div class="outcomes"><span class="outcome block">✗ معلّق من مدير الأصول → رفض</span><span class="outcome block">✗ غرفة محظورة → رفض</span></div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num branch">3</div>
+        <div class="flow-content">
+          <div class="flow-title">فحص التوثيق</div>
+          <div class="flow-detail">الغرفة موثقة (dept_id + parse_status + location_code)؟</div>
+          <div class="outcomes"><span class="outcome block">✗ بدون قسم مرتبط → رفض (inv_dept_required)</span><span class="outcome block">✗ بدون location_code → رفض (inv_block_undoc)</span></div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num branch">4</div>
+        <div class="flow-content">
+          <div class="flow-title">فحص الحالة الحالية</div>
+          <div class="flow-detail">هل توجد قفل نشط لي؟ هل توجد غرفة أخرى مفتوحة عندي؟</div>
+          <div class="outcomes"><span class="outcome ok">✓ قفل نشط لي → استئناف مباشر</span><span class="outcome block">✗ غرفة أخرى نشطة → رفض (inv_max_locks)</span></div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num branch">5</div>
+        <div class="flow-content">
+          <div class="flow-title">فحص التعارض</div>
+          <div class="flow-detail">موظف آخر في الغرفة؟ ما نمط التوازي؟</div>
+          <div class="outcomes">
+            <span class="outcome block">✗ off + تعارض → نافذة استلام (inv_allow_takeover)</span>
+            <span class="outcome ok">✓ all/selected → دخول مشترك</span>
+          </div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num pass">6</div>
+        <div class="flow-content">
+          <div class="flow-title">إنشاء القفل</div>
+          <div class="flow-detail">INSERT + expires_at (حسب inv_lock_timeout_min) + rl_log</div>
+          <div class="outcomes"><span class="outcome ok">✓ دخول ناجح → شريط القفل + بدء الجرد</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ جدول الاختبار ═══════════ -->
+<div class="test-section">
+  <div class="test-card">
+    <div class="test-header"><i class="fa-solid fa-flask-vial"></i> جدول اختبار الإعدادات</div>
+    <table class="test-table">
+      <thead><tr><th>#</th><th>الإعداد</th><th>طريقة الاختبار</th><th>النتيجة المتوقعة</th><th>الحالة</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>manual_picker</td><td>فعّل/عطّل → فتح scan.php</td><td>ظهور/اختفاء المنتقي + حقل يدوي + "أو"</td><td><span class="test-status status-done">✅ ناجح</span></td></tr>
+        <tr><td>2</td><td>parallel_mode</td><td>off: غرفة من إيدج → كروم يحاول</td><td>نافذة استلام</td><td><span class="test-status status-pending">🔄 قيد الاختبار</span></td></tr>
+        <tr><td>2</td><td>parallel_mode</td><td>all: نفس السيناريو</td><td>دخول مباشر مشترك</td><td><span class="test-status status-todo">⏳</span></td></tr>
+        <tr><td>2</td><td>parallel_mode</td><td>selected: حدد غرفة</td><td>دخول مباشر إذا مدرجة</td><td><span class="test-status status-todo">⏳</span></td></tr>
+        <tr><td>3</td><td>parallel_rooms</td><td>selected + [189]</td><td>189 دخول مباشر / غيرها استلام</td><td><span class="test-status status-todo">⏳</span></td></tr>
+        <tr><td>4</td><td>qr_required</td><td>فعّل → اختفي المنتقي</td><td>باركيود فقط</td><td><span class="test-status status-todo">⏳</span></td></tr>
+        <tr><td>5</td><td>allow_takeover</td><td>معطّل → محاولة استلام</td><td>رفض صارم</td><td><span class="test-status status-todo">⏳</span></td></tr>
+        <tr><td>6</td><td>require_oath</td><td>معطّل → إقفال</td><td>يُقبل بدون تأكيد</td><td><span class="test-status status-todo">⏳</span></td></tr>
+        <tr><td>7</td><td>lock_timeout</td><td>حدد 5 دقائق → اترك</td><td>تعليق تلقائي</td><td><span class="test-status status-todo">⏳</span></td></tr>
+        <tr><td>8</td><td>max_suspend</td><td>حدّد 2 → علّق مرتين</td><td>رفض التعليق الثالث</td><td><span class="test-status status-todo">⏳</span></td></tr>
+        <tr><td>9</td><td>quick_register</td><td>مسح جهاز جديد</td><td>"يمكن تسجيله"</td><td><span class="test-status status-todo">⏳</span></td></tr>
+        <tr><td>10</td><td>require_tag</td><td>احفظ بدون serial/tag</td><td>رفض الحفظ</td><td><span class="test-status status-todo">⏳</span></td></tr>
+        <tr><td>11</td><td>auto_save</td><td>حدّد 30 → انتظر</td><td>حفظ كل 30 ثانية</td><td><span class="test-status status-todo">⏳</span></td></tr>
+        <tr><td>12–13</td><td>warn_new / warn_missing</td><td>مسح جديد / اترك غرفة</td><td>تحذير / تأكيد</td><td><span class="test-status status-todo">⏳</span></td></tr>
+        <tr><td>14–15</td><td>audio / vibration</td><td>مسح QR</td><td>صوت + اهتزاز</td><td><span class="test-status status-todo">⏳</span></td></tr>
+        <tr><td>16</td><td>max_assets</td><td>حدّد 5 → جرد 6</td><td>تحذير</td><td><span class="test-status status-todo">⏳</span></td></tr>
+        <tr><td>17</td><td>max_locks</td><td>1 → افتح غرتين</td><td>رفض</td><td><span class="test-status status-todo">⏳</span></td></tr>
+        <tr><td>18–19</td><td>block_undoc / dept_required</td><td>غرفة بـ location_code فارغ</td><td>رفض</td><td><span class="test-status status-todo">⏳</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="footer">
+  PMSH-AMS — نظام إدارة أصول المستشفى المركزي &bull; خارطة طريق الإعدادات &bull; آخر تحديث: أغسطس 2026
+</div>
+
+</div>
+</body>
+</html>

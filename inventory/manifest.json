@@ -1,0 +1,55 @@
+{
+  "name": "PMSH الجرد الميداني",
+  "short_name": "PMSH جرد",
+  "description": "الجرد الميداني للأجهزة الطبية بدون إنترنت - مستشفى الأمير مشاري بن سعود",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/inventory/scan_offline.php",
+  "scope": "/inventory/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f3460",
+  "theme_color": "#0f3460",
+  "categories": ["productivity", "utilities", "medical"],
+  "icons": [
+    {
+      "src": "/inventory/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/inventory/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/inventory/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/inventory/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "الجرد العادي (Online)",
+      "short_name": "جرد Online",
+      "url": "/inventory/scan.php",
+      "icons": [{ "src": "/inventory/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "الجرد الميداني (Offline)",
+      "short_name": "جرد ميداني",
+      "url": "/inventory/scan_offline.php",
+      "icons": [{ "src": "/inventory/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "prefer_related_applications": false
+}
